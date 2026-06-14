@@ -7,7 +7,8 @@ TOKEN = os.getenv("TOKEN")
 
 intents = discord.Intents.default()
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+intents = discord.Intents.default()
+intents.message_content = True
 
 
 class RaidView(discord.ui.View):
