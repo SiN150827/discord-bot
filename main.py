@@ -9,6 +9,7 @@ intents = discord.Intents.default()
 
 intents = discord.Intents.default()
 intents.message_content = True
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 class RaidView(discord.ui.View):
