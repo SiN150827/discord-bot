@@ -27,13 +27,19 @@ def save_data(data):
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 class RaidView(discord.ui.View):
-    def __init__(self, raid_name, date_time, max_members):
+    def __init__(
+        self,
+        raid_name,
+        date_time,
+        max_members,
+        participants=None
+    ):
         super().__init__(timeout=None)
 
         self.raid_name = raid_name
         self.date_time = date_time
         self.max_members = max_members
-        self.participants = []
+        self.participants = participants or []
 
     def create_embed(self):
         if self.participants:
@@ -205,14 +211,18 @@ async def raid(
 @bot.event
 async def on_ready():
 
-    bot.add_view(
-        RaidView(
-            "temp",
-            "temp",
-            999
-        )
-    )
+    data = load_data()
 
+    for message_id, raid_data in data.items():
+
+        bot.add_view(
+            RaidView(
+                raid_data["raid_name"],
+                raid_data["date_time"],
+                raid_data["max_members"],
+                raid_data["participants"]
+            )
+        )
     try:
         synced = await bot.tree.sync()
         print(f"{len(synced)}個のコマンドを同期しました")
