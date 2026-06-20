@@ -63,7 +63,8 @@ class RaidView(discord.ui.View):
 
     @discord.ui.button(
         label="参加",
-        style=discord.ButtonStyle.green
+        style=discord.ButtonStyle.green,
+        custom_id="join_button"
     )
     async def join_button(
         self,
@@ -100,8 +101,9 @@ class RaidView(discord.ui.View):
 
     @discord.ui.button(
         label="キャンセル",
-        style=discord.ButtonStyle.red
-    )
+        style=discord.ButtonStyle.red,
+        custom_id="cancel_button"
+    )    
     async def cancel_button(
         self,
         interaction: discord.Interaction,
@@ -159,6 +161,15 @@ async def raid(
 
 @bot.event
 async def on_ready():
+
+    bot.add_view(
+        RaidView(
+            "temp",
+            "temp",
+            999
+        )
+    )
+
     try:
         synced = await bot.tree.sync()
         print(f"{len(synced)}個のコマンドを同期しました")
