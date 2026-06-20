@@ -103,6 +103,14 @@ class RaidView(discord.ui.View):
             return
 
         self.participants.append(user_name)
+        data = load_data()
+
+        message_id = str(interaction.message.id)
+
+        if message_id in data:
+            data[message_id]["participants"] = self.participants
+
+        save_data(data)
 
         if len(self.participants) >= self.max_members:
             button.disabled = True
@@ -134,6 +142,14 @@ class RaidView(discord.ui.View):
             return
 
         self.participants.remove(user_name)
+        data = load_data()
+
+        message_id = str(interaction.message.id)
+
+        if message_id in data:
+            data[message_id]["participants"] = self.participants
+
+        save_data(data)
 
         join_button = self.children[0]
         join_button.disabled = False
