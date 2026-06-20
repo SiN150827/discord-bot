@@ -172,6 +172,19 @@ async def raid(
         view=view
     )
 
+    message = await interaction.original_response()
+
+    data = load_data()
+
+    data[str(message.id)] = {
+        "raid_name": raid_name,
+        "date_time": date_time,
+        "max_members": max_members,
+        "participants": []
+    }
+
+    save_data(data)
+
 
 @bot.event
 async def on_ready():
